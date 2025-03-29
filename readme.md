@@ -2,6 +2,9 @@ Todo:
 - Only allow lbs or kgs (do a drop-down in the frontend)
 - Rewrite installation and run instructions\
 - Once deployed: Change cors allowed from wildcard to URL
+- Deply:
+  - Backend: Heroku
+  - Frontend: Vercel (maybe Netlify) 
 
 <!-- # Lift Logger (MERN Stack)
 
