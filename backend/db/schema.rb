@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_18_223359) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_18_231907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,9 +24,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_18_223359) do
   create_table "user_exercises", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
-    t.float "weight"
-    t.integer "reps"
-    t.integer "sets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_user_exercises_on_exercise_id"
@@ -44,6 +41,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_18_223359) do
     t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "weight"
+    t.integer "reps"
+    t.integer "sets"
     t.index ["exercise_id"], name: "index_workout_exercises_on_exercise_id"
     t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
   end
@@ -53,10 +53,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_18_223359) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_workouts_on_user_id"
   end
 
   add_foreign_key "user_exercises", "exercises"
   add_foreign_key "user_exercises", "users"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
+  add_foreign_key "workouts", "users"
 end

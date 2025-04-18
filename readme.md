@@ -12,11 +12,19 @@ Todo:
   ```bash
   docker exec -it rails_container bash
   ```
+- Access Rails console
+  ```bash
+  rails console
+  ```
 
 ### Rails
 - Generate table (example with foreign keys):
   ```bash
   rails generate migration CreateUserExercises user:references exercise:references weight:float reps:integer sets:integer
+  ```
+- Generate table (example with foreign keys) AND model:
+  ```bash
+  rails generate model CreateUserExercises user:references exercise:references weight:float reps:integer sets:integer
   ```
 - Migrate:
   ```bash
@@ -26,6 +34,7 @@ Todo:
   ```bash
   rails generate migration DropTableName
   ```
+
 
   
 
