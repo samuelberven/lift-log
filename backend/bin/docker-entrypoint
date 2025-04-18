@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+echo "Waiting for database to be ready..."
+
+# Loop until PostgreSQL is ready, handling potential failures
+until pg_isready -h "$DB_HOST" -p 5432 -U "$DB_USER" -q; do
+  echo "Still waiting for database..."
+  sleep 2
+done
+
+echo "Database is ready! Running migrations..."
+
+# Run database setup (if needed)
+bundle exec rails db:prepare
+
+echo "Starting Rails server..."
+exec "$@"
+
+
+# #!/bin/bash
+# set -e
+
+# # Wait for the database to be ready
+# until pg_isready -h "$DB_HOST" -p 5432 -q; do
+#   echo "Waiting for database..."
+#   sleep 1
+# done
+
+# # Run database migrations (optional)
+# bundle exec rails db:migrate
+
+# # Start the Rails server
+# exec "$@"

@@ -74,3 +74,6 @@ test-results/
 client/build/
 client/dist/
 server/build/
+
+# Ignore .env files
+.env.dev

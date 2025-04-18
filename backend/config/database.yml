@@ -1,0 +1,45 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: lift
+  password: lift
+  database: lift
+
+development:
+  <<: *default
+
+
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   username: lluser
+#   password: llpassword
+#   host: db  # Refers to the Docker service name
+#   database: lift_logger_development
+
+#   # username: <%= ENV["DB_USERNAME"] %>
+#   # password: <%= ENV["DB_PASSWORD"] %>
+#   # host: <%= ENV["DB_HOST"] %>
+#   # database: <%= ENV["DB_NAME"] %>
+
+# development:
+#   <<: *default
+#   database: <%= ENV["DB_NAME"] %>_development
+
+# test:
+#   <<: *default
+#   database: <%= ENV["DB_NAME"] %>_test
+#   username: <%= ENV["DB_USERNAME"] %>
+#   password: <%= ENV["DB_PASSWORD"] %>
+#   host: <%= ENV["DB_HOST"] %>
+#   pool: 5
+
+# production:
+#   <<: *default
+#   database: <%= ENV["DB_NAME"] %>_production
+#   username: <%= ENV["DB_USERNAME"] %>
+#   password: <%= ENV["DB_PASSWORD"] %>
+#   host: <%= ENV["DB_HOST"] %>
+#   pool: 10
