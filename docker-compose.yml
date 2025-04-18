@@ -18,6 +18,9 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://lift:lift@db:5432/lift
+      DB_HOST: db
+      DB_USER: lift
+      DB_PASSWORD: lift
 
     ports:
       - "3000:3000"

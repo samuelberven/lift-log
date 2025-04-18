@@ -2,6 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: db
+  # host: postgres_container
   username: lift
   password: lift
   database: lift
