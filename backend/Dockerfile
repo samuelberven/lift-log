@@ -5,7 +5,7 @@ ARG RUBY_VERSION=3.3.0
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
 
 # Set working directory inside the container
-WORKDIR /rails
+WORKDIR /backend
 
 # Install required system dependencies
 RUN apt-get update -qq && \

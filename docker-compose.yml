@@ -21,41 +21,29 @@ services:
       DB_HOST: db
       DB_USER: lift
       DB_PASSWORD: lift
-
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend:/backend  # volumes:
+  #   - /Users/sam/lift-logger/backend:/backend
 
-
-# services:
-  # db:
-  #   image: postgres:16
-  #   build: 
-  #     context: ./database
-  #   env_file: .env.dev
-  #   environment:
-  #     POSTGRES_USER: lluser
-  #     POSTGRES_PASSWORD: llpassword
-  #     POSTGRES_DB: lift_logger_development
-  #     # POSTGRES_USER: "${DB_USERNAME}"
-  #     # POSTGRES_PASSWORD: "${DB_PASSWORD}"
-  #     # POSTGRES_DB: "${DB_NAME}"
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
 
   # backend:
-  #   build:
-  #     context: ./rails-backend
-  #   env_file: .env.dev
-  #   environment:
-  #     SECRET_KEY_BASE: "609cda6977559cd88e944a984dbda6b3820c109f5c00a51c77cd17f56e369b4b17bc3d654729b828ff2c65a8bd9350388fa89265d5cb3fb5a4986ea2aacd5056"
+  #   build: ./backend
+  #   container_name: rails_container
   #   depends_on:
   #     - db
+  #   environment:
+  #     DATABASE_URL: postgres://lift:lift@db:5432/lift
+  #     DB_HOST: db
+  #     DB_USER: lift
+  #     DB_PASSWORD: lift
   #   ports:
   #     - "3000:3000"
   #   volumes:
-  #     - ./rails-backend:/rails  # Updated to avoid overriding files
+  #     - ./backend:/backend
+
+
 
   # frontend:
   #   build:

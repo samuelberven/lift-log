@@ -6,6 +6,38 @@ Todo:
   - Backend: Heroku
   - Frontend: Vercel (maybe Netlify) 
 
+## Useful commands:
+### Docker
+- Access Rails container:
+  ```bash
+  docker exec -it rails_container bash
+  ```
+
+### Rails
+- Generate table (example with foreign keys):
+  ```bash
+  rails generate migration CreateUserExercises user:references exercise:references weight:float reps:integer sets:integer
+  ```
+- Migrate:
+  ```bash
+  rails db:migrate
+  ```
+- Drop (table) migration:
+  ```bash
+  rails generate migration DropTableName
+  ```
+
+  
+
+
+  
+
+
+### Dev difficulties notes
+- My backend Dockerfile had WORKDIR /rails when it needded to be WORKDIR /backend. I renamed it at some point, but forgot to do my due diligence here
+
+
+
 <!-- # Lift Logger (MERN Stack)
 
 NOTE: I am currently rewriting the backend from NodeJS to Ruby on Rails, and adding Typescript to the Reacet frontend.
