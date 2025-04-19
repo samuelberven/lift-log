@@ -242,7 +242,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
-  faker (~> 3.5)
+  faker (~> 3.5.1)
   pg
   puma (>= 5.0)
   rack-cors

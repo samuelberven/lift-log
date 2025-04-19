@@ -1,23 +1,81 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import CreateExercisePage from './pages/CreateExercisePage';
-import EditExercisePage from './pages/EditExercisePage';
-import ExerciseDetailPage from './pages/ExerciseDetailPage';
-import Navigation from './components/Navigation';
+import { useState, useEffect } from "react";
+import { getExercises } from "./api/api";
 
-const App: React.FC = () => {
+interface Exercise {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
+
+function App() {
+  const [exercises, setExercises] = useState<Exercise[] | null>(null); // Use strong typing
+
+  useEffect(() => {
+    getExercises()
+      .then(response => {
+        console.log("Fetched exercises:", response); // 🔥 Debugging log
+        setExercises(response);
+      })
+      .catch(error => console.error("Error fetching exercises:", error));
+  }, []);
+
   return (
-    <Router>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<CreateExercisePage />} />
-        <Route path="/edit/:id" element={<EditExercisePage />} />
-        <Route path="/exercise/:id" element={<ExerciseDetailPage />} />
-      </Routes>
-    </Router>
+    <div>
+      <h1>Exercises</h1>
+      {exercises ? (
+        <pre>{JSON.stringify(exercises, null, 2)}</pre> // 🔥 Display raw JSON
+      ) : (
+        <p>Loading exercises...</p>
+      )}
+    </div>
   );
-};
+}
 
 export default App;
+
+
+
+// import { useState, useEffect } from "react";
+// import { getExercises } from "./api/api";
+
+// interface Exercise {
+//   id: number;
+//   name: string;
+//   description: string;
+//   created_at: string;
+//   updated_at: string;
+// }
+
+
+// function App() {
+//   const [exercises, setExercises] = useState<Exercise[]>([]); // Explicitly set type
+
+//   useEffect(() => {
+//     getExercises().then(setExercises);
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Exercises</h1>
+//       {exercises.length > 0 ? (
+//         <ul>
+//           {exercises.map(exercise => (
+//             <li key={exercise.id}>
+//               <strong>{exercise.name}</strong>: {exercise.description ?? "No description available"}
+//               <br></br>
+//               <p>"Created {exercise.created_at}, updated {exercise.updated_at}"</p>
+//             </li>
+
+//           ))}
+//         </ul>
+//       ) : (
+//         <p>Loading exercises...</p>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default App;
+

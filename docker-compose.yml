@@ -28,19 +28,18 @@ services:
   #   - /Users/sam/lift-logger/backend:/backend
 
 
-  # frontend:
-  #   build:
-  #     context: ./ts-frontend
-  #   container_name: vite_frontend
-  #   ports:
-  #     - "5173:5173"
-  #   volumes:
-  #     - ./ts-frontend:/app
-  #   depends_on:
-  #     - backend
-  #   environment:
-  #     - NODE_ENV=development
-  #     - VITE_API_URL=http://backend:3000
+  frontend:
+    build:
+      context: ./frontend
+    container_name: vite_frontend
+    ports:
+      - "4173:4173"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=http://backend:3000
+
 
 # volumes:
 #   db_data:
