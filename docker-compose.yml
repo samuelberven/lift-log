@@ -28,32 +28,19 @@ services:
   #   - /Users/sam/lift-logger/backend:/backend
 
 
-  # backend:
-  #   build: ./backend
-  #   container_name: rails_container
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: postgres://lift:lift@db:5432/lift
-  #     DB_HOST: db
-  #     DB_USER: lift
-  #     DB_PASSWORD: lift
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./backend:/backend
-
-
-
   # frontend:
   #   build:
   #     context: ./ts-frontend
+  #   container_name: vite_frontend
   #   ports:
   #     - "5173:5173"
   #   volumes:
   #     - ./ts-frontend:/app
   #   depends_on:
   #     - backend
+  #   environment:
+  #     - NODE_ENV=development
+  #     - VITE_API_URL=http://backend:3000
 
 # volumes:
 #   db_data:
