@@ -1,64 +1,59 @@
-# Use lightweight Node.js image for build
-FROM node:20-alpine AS builder
+# Frontend Dockerfile
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy only package.json and package-lock.json first (optimizes Docker layer caching)
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package*.json ./
 
-# Install dependencies using npm ci
+# Explicitly set NODE_ENV to development during installation
+ENV NODE_ENV=development
+
+# Install dependencies including devDependencies
 RUN npm ci
 
 # Copy the rest of the frontend source code
 COPY . .
 
-# Build the Vite app
-RUN npm run build
+# Expose Vite's default port
+EXPOSE 5173
 
-# -- Deployment-ready production stage --
-FROM node:20-alpine AS runtime
-WORKDIR /app
-
-# Copy built assets from builder stage
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/package-lock.json ./package-lock.json
-
-# Install only production dependencies
-RUN npm ci --omit=dev
-
-# Expose the frontend port
-EXPOSE 4173
-
-# Serve the built React (Vite) project
-CMD ["npm", "run", "preview"]
+# Default command (can be overridden by docker-compose)
+CMD ["npm", "run", "dev"]
 
 
-# # Use lightweight Node.js image
+# # Lightweight image for both development and production
 # FROM node:20-alpine AS builder
 
-# # Set the working directory inside the container
 # WORKDIR /app
 
-# # Copy package.json and package-lock.json before the rest (optimizes caching)
-# COPY package.json package-lock.json ./
+# # # Copy only package.json and package-lock.json first (optimizes Docker layer caching)
+# # COPY package.json package-lock.json ./
 
-# # Install dependencies using npm ci (clean install, consistent with lock file)
+# # Copy package files for dependency installation
+# COPY package*.json ./
+
+# # Install all dependencies (including dev dependencies)
+# ENV NODE_ENV=development
+
+# # Install dependencies using npm ci
 # RUN npm ci
 
-# # Copy frontend source code AFTER installing dependencies (reduces rebuilds)
+# # Copy the rest of the frontend source code
 # COPY . .
 
-# # Build the frontend
+# # Build the Vite app
 # RUN npm run build
 
-# # -- Deployment-ready build (Production) --
+# # -- Deployment-ready production stage --
 # FROM node:20-alpine AS runtime
+
 # WORKDIR /app
 
-# # Copy over build artifacts from the previous stage
+# # Copy built assets from builder stage
 # COPY --from=builder /app/dist ./dist
-# COPY --from=builder /app/package.json ./package.json
+# # COPY --from=builder /app/package.json ./package.json
+# COPY --from=builder /app/package*.json ./
 
 # # Install only production dependencies
 # RUN npm ci --omit=dev
@@ -68,3 +63,4 @@ CMD ["npm", "run", "preview"]
 
 # # Serve the built React (Vite) project
 # CMD ["npm", "run", "preview"]
+# # CMD ["npm", "run", "dev"]

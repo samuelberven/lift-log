@@ -8,6 +8,10 @@ Todo:
 
 ## Useful commands:
 ### Docker
+- Basic docker up command:
+  ```bash
+  docker-compose up
+  ```
 - Access Rails container:
   ```bash
   docker exec -it rails_container bash

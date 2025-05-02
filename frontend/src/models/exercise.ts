@@ -1,9 +1,7 @@
 export interface Exercise {
-  id: string;
+  id: number;
   name: string;
-  date: string;
-  sets: number;
-  reps: number;
-  weight: number;
-  units: 'lbs' | 'kg';
+  description: string;
+  created_at: string;
+  updated_at: string;
 }
