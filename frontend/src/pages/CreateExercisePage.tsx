@@ -1,69 +1,57 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { postExercise } from '../services/exerciseService';
-// import { Exercise } from '../models/exercise';
+// pages/CreateExercisePage.tsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { postExercise } from '../services/exerciseService';
+import { Exercise } from '../models/exercise';
+import Header from '../components/Header';
 
-// const CreateExercisePage: React.FC = () => {
-//   const [name, setName] = useState('');
-//   const [sets, setSets] = useState(0);
-//   const [reps, setReps] = useState(0);
-//   const [weight, setWeight] = useState(0);
-//   const [units, setUnits] = useState<'lbs' | 'kg'>('lbs');
-//   const [date, setDate] = useState('');
+const CreateExercisePage: React.FC = () => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  
+  const navigate = useNavigate();
 
-//   const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newExercise: Omit<Exercise, 'id' | 'created_at' | 'updated_at'> = { name, description };
+    
+    try {
+      await postExercise(newExercise);
+      navigate('/home');
+    } catch (error) {
+      console.error('Error creating exercise:', error);
+    }
+  };
 
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Create New Exercise</h2>
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
+          <input
+            type="text"
+            placeholder="Exercise Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border rounded"
+            rows={4}
+            required
+          />
+          <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700 transition">
+            Create Exercise
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-//     // Todo: read about React's Omit
-//     const newExercise: Omit<Exercise, 'id'> = { name, sets, reps, weight, units, date };
-
-//     await postExercise(newExercise); // Backend will generate ID upon creation
-//     navigate('/');  // Redirect to HomePage after adding exercise
-//   };
-
-//   return (
-//     <div>
-//       <h2>Create New Exercise</h2>
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           type="text"
-//           placeholder="Exercise Name"
-//           value={name}
-//           onChange={(e) => setName(e.target.value)}
-//         />
-//         <input
-//           type="number"
-//           placeholder="Sets"
-//           value={sets}
-//           onChange={(e) => setSets(Number(e.target.value))}
-//         />
-//         <input
-//           type="number"
-//           placeholder="Reps"
-//           value={reps}
-//           onChange={(e) => setReps(Number(e.target.value))}
-//         />
-//         <input
-//           type="number"
-//           placeholder="Weight"
-//           value={weight}
-//           onChange={(e) => setWeight(Number(e.target.value))}
-//         />
-//         <select value={units} onChange={(e) => setUnits(e.target.value as 'lbs' | 'kg')}>
-//           <option value="lbs">lbs</option>
-//           <option value="kg">kg</option>
-//         </select>
-//         <input
-//           type="date"
-//           value={date}
-//           onChange={(e) => setDate(e.target.value)}
-//         />
-//         <button type="submit">Create Exercise</button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default CreateExercisePage;
+export default CreateExercisePage;

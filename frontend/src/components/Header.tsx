@@ -11,15 +11,27 @@ const Header: React.FC = () => {
     navigate('/');
   };
 
-
   return (
-    <header className="bg-blue-600 text-white py-4 shadow">
+    <header className="bg-indigo-600 text-white py-4 shadow">
       <div className="container mx-auto flex justify-between items-center px-4">
-        <Link to="/home" className="text-xl font-bold text-gray-800"> Lift Logger 
-        </Link>
-        <nav className="flex items-center space-x-4">
+        {/* Left and center: Logo and navigation links */}
+        <div className="flex items-center gap-6">
+          <Link to="/home" className="text-xl font-bold text-gray-800">
+            Lift Logger
+          </Link>
+          <nav className="flex space-x-4">
+            <Link to="/home" className="hover:text-gray-300">
+              Home
+            </Link>
+            <Link to="/create" className="hover:text-gray-300">
+              Add Exercise
+            </Link>
+          </nav>
+        </div>
+        {/* Right: Logout button */}
+        <div>
           <Button label="Logout" onClick={handleLogout} />
-        </nav>
+        </div>
       </div>
     </header>
   );

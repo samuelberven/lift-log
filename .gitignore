@@ -77,3 +77,6 @@ server/build/
 
 # Ignore .env files
 .env.dev
+
+# Personal development notes to myself
+DEV_NOTES.md

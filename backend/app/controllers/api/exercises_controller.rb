@@ -1,6 +1,11 @@
 module Api
   class ExercisesController < ApplicationController
     def index
+
+      response.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
+      response.headers['Access-Control-Allow-Credentials'] = 'true'
+      # Note: these headers are set to allow CORS requests from the frontend app.
+      
       render json: Exercise.all
     end
 
