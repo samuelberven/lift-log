@@ -19,13 +19,13 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     end
 
     # Fallback for development. Note: this is not recommended for production, and needs to be fixed ASAP. TODO: fix this
-  allow do
-    origins '*'
+  # allow do
+  #   origins '*'
     
-    resource '*',
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
-  end
+  #   resource '*',
+  #     headers: :any,
+  #     methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  # end
   end
 
 
