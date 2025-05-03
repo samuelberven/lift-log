@@ -1,3 +1,9 @@
+# Running Dockerized db-related Dockerized rails commands
+(db:migrate, db:seed, db:reset, etc.)
+```bash
+  docker compose exec backend rails the_command
+```
+
 # README
 
 This README would normally document whatever steps are necessary to get the
