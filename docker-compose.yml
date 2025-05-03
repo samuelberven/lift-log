@@ -39,7 +39,7 @@ services:
       - ./frontend:/app:rw
       - /app/node_modules  # Add this to prevent overwriting node_modules
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=http://localhost:3000/api
     command: npm run dev
 
   # frontend:
