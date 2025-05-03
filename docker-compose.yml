@@ -3,9 +3,13 @@ services:
     image: postgres:17
     container_name: postgres_container
     environment:
-      POSTGRES_USER: lift
-      POSTGRES_PASSWORD: lift
-      POSTGRES_DB: lift
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    # environment:
+    #   POSTGRES_USER: lift
+    #   POSTGRES_PASSWORD: lift
+    #   POSTGRES_DB: lift
     ports:
       - "5432:5432"
     volumes:
@@ -14,13 +18,15 @@ services:
   backend:
     build: ./backend
     container_name: rails_container
+    env_file:
+      - ./backend/.env.development    # Backend specific env file
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://lift:lift@db:5432/lift
-      DB_HOST: db
-      DB_USER: lift
-      DB_PASSWORD: lift
+      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3000:3000"
     volumes:
@@ -70,3 +76,81 @@ services:
 
 # volumes:
 #   db_data:
+
+
+# services:
+#   db:
+#     image: postgres:17
+#     container_name: postgres_container
+#     environment:
+#       POSTGRES_USER: ${DB_USERNAME}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#       POSTGRES_DB: ${DB_NAME}
+#     # environment:
+#     #   POSTGRES_USER: lift
+#     #   POSTGRES_PASSWORD: lift
+#     #   POSTGRES_DB: lift
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - ./database/data:/var/lib/postgresql/data
+
+#   backend:
+#     build: ./backend
+#     container_name: rails_container
+#     depends_on:
+#       - db
+#     environment:
+#       DATABASE_URL: postgres://lift:lift@db:5432/lift
+#       DB_HOST: db
+#       DB_USER: lift
+#       DB_PASSWORD: lift
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./backend:/backend  # volumes:
+#   #   - /Users/sam/lift-logger/backend:/backend
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#     container_name: vite_frontend
+#     ports:
+#       - "5173:5173"  # Vite's default port
+#     depends_on:
+#       - backend
+#     volumes:
+#       - ./frontend:/app:rw
+#       - /app/node_modules  # Add this to prevent overwriting node_modules
+#     environment:
+#       - VITE_API_URL=http://localhost:3000/api
+#     command: npm run dev
+
+#   # frontend:
+#   #   build:
+#   #     context: ./frontend
+#   #     # target: builder
+#   #     target: ${NODE_ENV:-builder}  # Use builder for dev, runtime for prod
+#   #   container_name: vite_frontend
+#   #   ports:
+#   #     - "4173:4173"
+#   #   depends_on:
+#   #     - backend
+#   #   # Note: I added the volume so I wouldn't have to rebuild the image every time I make a change
+#   #   # to the frontend code.
+#   #   # volumes:
+#   #   #   - ./frontend:/app  # Mount your local source code into the container
+#   #   # environment:
+#   #   #   - NODE_ENV=development
+#   #   #   - VITE_API_URL=http://backend:3000
+#   #   # command: npm run dev  # Override the Dockerfile's CMD to run in dev mode
+#   #   volumes:
+#   #     - ./frontend:/app:rw  # Will manage this mount with docker-compose.override.yml for dev
+#   #   environment:
+#   #     - NODE_ENV=${NODE_ENV:-development}
+#   #     - VITE_API_URL=http://backend:3000
+#   #   command: npm run ${NODE_ENV:-development}  # Will run 'npm run dev' or 'npm run preview'
+
+
+# # volumes:
+# #   db_data:
