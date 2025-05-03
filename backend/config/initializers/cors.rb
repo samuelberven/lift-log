@@ -17,16 +17,4 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
         max_age: 600, # Note: this is here because of the preflight request. It is not a security issue, as the preflight request is not sent to the server.
         credentials: true  # Ensure credentials (cookies, auth) are included in requests
     end
-
-    # Fallback for development. Note: this is not recommended for production, and needs to be fixed ASAP. TODO: fix this
-  # allow do
-  #   origins '*'
-    
-  #   resource '*',
-  #     headers: :any,
-  #     methods: [:get, :post, :put, :patch, :delete, :options, :head]
-  # end
   end
-
-
-  
