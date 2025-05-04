@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { Workout } from '../types/workout';
-import { Exercise } from '../types/exercise';
+// import { Exercise } from '../types/exercise';
 import { WorkoutExerciseApi } from '../services/workout-exercise-api';
 import Button from './Button';
 
 interface WorkoutListProps {
   workouts: Workout[];
-  exercises: Exercise[];
   onWorkoutChanged: () => void;
 }
 
-const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, exercises, onWorkoutChanged }) => {
+const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, onWorkoutChanged }) => {
   const [expandedWorkout, setExpandedWorkout] = useState<number | null>(null);
   const [editingWeId, setEditingWeId] = useState<number | null>(null);
   const [editedWe, setEditedWe] = useState<{ weight: string; reps: string; sets: string }>({

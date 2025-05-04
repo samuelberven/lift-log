@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import NewWorkoutForm from '../components/NewWorkoutForm';
 import WorkoutList from '../components/WorkoutList';
@@ -11,7 +11,7 @@ import { ExerciseApi } from '../services/exercise-api';
 const HomePage: React.FC = () => {
   const userId = 1;  // Hardcoded for now
   const userName = 'Demo User';
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
           />
           <WorkoutList 
             workouts={workouts}
-            exercises={exercises}
+            // exercises={exercises}
             onWorkoutChanged={fetchData}
           />
         </div>
