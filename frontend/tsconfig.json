@@ -1,7 +1,27 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "target": "ES2022",                           // Modern JavaScript features
+    "lib": ["DOM", "ES2022"],                     // Include DOM library for browser support
+    "jsx": "react-jsx",                           // Properly transforms JSX code
+    "module": "ESNext",                           // Keep up with modern module systems
+    "moduleResolution": "node",                   // Standard for bundlers like Vite or Webpack
+    "strict": true,                               // Enable strict type-checking
+    "esModuleInterop": true,                      // Smooth interoperability with CommonJS modules
+    "skipLibCheck": true,                         // Speeds up compilation
+    "forceConsistentCasingInFileNames": true,     // Maintain consistent casing in imports
+    "isolatedModules": true,                      // Ensure every file can be safely transpiled in isolation
+    "allowSyntheticDefaultImports": true,         // First-class support for default imports
+    "outDir": "./dist",                           // Directory for compiled output (matching your structure)
+    "baseUrl": "./src"                            // Simplifies module imports with absolute paths
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
+
+// {
+//   "files": [],
+//   "references": [
+//     { "path": "./tsconfig.app.json" },
+//     { "path": "./tsconfig.node.json" }
+//   ]
+// }
