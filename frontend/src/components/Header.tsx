@@ -1,40 +1,58 @@
-// Header.tsx
-import React from "react";
-import Button from "./Button";
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import Button from './Button';
 
-const Header: React.FC = () => {
-  const navigate = useNavigate();
+interface HeaderProps {
+  userName: string;
+  onLogout: () => void;
+}
 
-    const handleLogout = () => {
-    // For now, simply redirect back to login (Welcome page)
-    navigate('/');
-  };
-
+const Header: React.FC<HeaderProps> = ({ userName, onLogout }) => {
   return (
-    <header className="bg-indigo-600 text-white py-4 shadow">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        {/* Left and center: Logo and navigation links */}
-        <div className="flex items-center gap-6">
-          <Link to="/home" className="text-xl font-bold text-gray-800">
-            Lift Logger
-          </Link>
-          <nav className="flex space-x-4">
-            <Link to="/home" className="hover:text-gray-300">
-              Home
-            </Link>
-            <Link to="/create" className="hover:text-gray-300">
-              Add Exercise
-            </Link>
-          </nav>
+    <header className="bg-white shadow-sm">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="flex items-center space-x-4">
+          <h1 className="text-2xl font-bold text-indigo-600">LiftLog</h1>
+          <span className="text-gray-600">Welcome, {userName}</span>
         </div>
-        {/* Right: Logout button */}
-        <div>
-          <Button label="Logout" onClick={handleLogout} />
-        </div>
+        <Button 
+          label="Logout" 
+          onClick={onLogout} 
+          variant="secondary"
+          size="small"
+        />
       </div>
     </header>
   );
 };
 
 export default Header;
+
+// // components/Header.tsx
+// import React from 'react';
+// import Button from './Button';
+
+// interface HeaderProps {
+//   userName: string;
+//   onLogout: () => void;
+// }
+
+// const Header: React.FC<HeaderProps> = ({ userName, onLogout }) => {
+//   return (
+//     <header className="bg-white shadow-sm">
+//       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+//         <div className="flex items-center space-x-4">
+//           <h1 className="text-2xl font-bold text-indigo-600">LiftLog</h1>
+//           <span className="text-gray-600">Welcome, {userName}</span>
+//         </div>
+//         <Button 
+//           label="Logout" 
+//           onClick={onLogout} 
+//           variant="secondary"
+//           size="small"
+//         />
+//       </div>
+//     </header>
+//   );
+// };
+
+// export default Header;

@@ -1,12 +1,19 @@
 module Api
-  class Api::WorkoutsController < ApplicationController
+  class WorkoutsController < ApplicationController
     def index
-      render json: Workout.all
+      workouts = if params[:user_id]
+                  Workout.where(user_id: params[:user_id])
+                else
+                  Workout.all
+                end
+      render json: workouts, include: { workout_exercises: { include: :exercise } }
     end
+
     def show
       workout = Workout.find(params[:id])
-      render json: workout
+      render json: workout, include: { workout_exercises: { include: :exercise } }
     end
+
     def create
       workout = Workout.new(workout_params)
       if workout.save
@@ -15,6 +22,7 @@ module Api
         render json: { errors: workout.errors.full_messages }, status: :unprocessable_entity
       end
     end
+
     def update
       workout = Workout.find(params[:id])
       if workout.update(workout_params)
@@ -31,9 +39,10 @@ module Api
     end
 
     private
+
     def workout_params
-      params.require(:workout).permit(:name, :description) 
-    
+      # Add user_id and date to permitted params
+      params.require(:workout).permit(:name, :description, :user_id, :date)
     end
   end
 end
