@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :workouts
     resources :exercises
     resources :workout_exercises
+    resources :user_exercises
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -1,47 +1,42 @@
-module Api
-  class Api::UserExercisesController < ApplicationController
+module Api 
+  class UserExercisesController < ApplicationController
     def index
-      user = User.find(params[:user_id])
-      exercises = user.exercises
-      render json: exercises
+      user_exercises = UserExercise.all
+      render json: user_exercises
     end
 
     def show
-      user = User.find(params[:user_id])
-      exercise = user.exercises.find(params[:id])
-      render json: exercise
+      user_exercise = UserExercise.find(params[:id])
+      render json: user_exercise
     end
 
     def create
-      user = User.find(params[:user_id])
-      exercise = user.exercises.new(exercise_params)
-      if exercise.save
-        render json: exercise, status: :created
+      user_exercise = UserExercise.new(user_exercise_params)
+      if user_exercise.save
+        render json: user_exercise, status: :created
       else
-        render json: { errors: exercise.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: user_exercise.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
     def update
-      user = User.find(params[:user_id])
-      exercise = user.exercises.find(params[:id])
-      if exercise.update(exercise_params)
-        render json: exercise
+      user_exercise = UserExercise.find(params[:id])
+      if user_exercise.update(user_exercise_params)
+        render json: user_exercise
       else
-        render json: { errors: exercise.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: user_exercise.errors.full_messages }, status: :unprocessable_entity
       end
     end
-    
+
     def destroy
-      user = User.find(params[:user_id])
-      exercise = user.exercises.find(params[:id])
-      exercise.destroy
+      user_exercise = UserExercise.find(params[:id])
+      user_exercise.destroy
       head :no_content
     end
-
+    
     private
-    def exercise_params
-      params.require(:exercise).permit(:name, :description)
+    def user_exercise_params
+      params.require(:user_exercise).permit(:user_id, :exercise_id)
     end
-  end    
+  end
 end
