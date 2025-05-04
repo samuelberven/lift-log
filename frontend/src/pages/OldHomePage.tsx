@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Exercise } from '../models/exercise';
+import { Exercise } from '../types/exercise';
 import Header from '../components/Header';
 import { getExercises, deleteExercise } from '../services/exerciseService';
 

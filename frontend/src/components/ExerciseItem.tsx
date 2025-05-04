@@ -1,7 +1,7 @@
 // components/ExerciseItem.tsx
 import React from 'react';
 import { MdOutlineDeleteForever, MdOutlineModeEditOutline } from 'react-icons/md';
-import { Exercise } from '../models/exercise';
+import { Exercise } from '../types/exercise';
 
 interface ExerciseItemProps {
   exercise: Exercise;

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postExercise } from '../services/exerciseService';
-import { Exercise } from '../models/exercise';
+import { Exercise } from '../types/exercise';
 import Header from '../components/Header';
 
 const CreateExercisePage: React.FC = () => {

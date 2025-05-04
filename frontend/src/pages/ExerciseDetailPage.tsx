@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchExerciseById } from '../services/exerciseService';
-import { Exercise } from '../models/exercise';
+import { Exercise } from '../types/exercise';
 import Header from '../components/Header';
 import { isValidId } from '../utils/validationUtils';
 

@@ -1,41 +1,15 @@
-// src/pages/HomePage.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import { getExercises, postExercise } from '../services/exerciseService';
-
-// Data type definitions
-type WorkoutExercise = {
-  id: number;
-  exercise_id: number;
-  weight: number;
-  reps: number;
-  sets: number;
-  exercise?: {
-    name: string;
-  };
-};
-
-type Workout = {
-  workoutID: number;
-  name: string;
-  date: string; // Format: "YYYY-MM-DD"
-  user_id: number;
-  workout_exercises: WorkoutExercise[];
-};
-
-type Exercise = {
-  id: number;
-  name: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-};
+import { Exercise } from '../types/exercise';
+import { WorkoutExercise } from '../types/workout_exercise';
+import { Workout } from '../types/workout';
 
 const HomePage: React.FC = () => {
   // Hard-coded user details.
   const userID = 7;
-  const userName = "Cheri Trantow";
+  const userName = "Placeholder User";
   const navigate = useNavigate();
 
   // Component state.

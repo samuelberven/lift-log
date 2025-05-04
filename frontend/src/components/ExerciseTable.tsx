@@ -1,6 +1,6 @@
 // components/ExerciseTable.tsx
 import React from 'react';
-import { Exercise } from '../models/exercise';
+import { Exercise } from '../types/exercise';
 import ExerciseItem from './ExerciseItem';
 
 interface ExerciseTableProps {

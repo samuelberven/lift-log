@@ -1,4 +1,4 @@
-import { Exercise, CreateExerciseDto } from '../models/exercise';
+import { Exercise, CreateExerciseDto } from '../types/exercise';
 
 // Use VITE_API_URL from the environment to allow easy reconfiguration,
 // and include the /api prefix, either via your env variable or fallback.
