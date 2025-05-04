@@ -68,7 +68,7 @@ User.create!(name: "Demo User")
 
 # Create additional users
 puts "Creating other users..."
-19.times do
+4.times do
   User.create!(name: Faker::Name.unique.name)
 end
 
@@ -84,8 +84,8 @@ end
 # Helper method to determine workout frequency
 def workout_frequency_for_user
   case rand(100)
-  when 0..20 then 2..4    # 20% work out 2-4 times per month (casual)
-  when 21..70 then 8..10  # 50% work out 8-10 times per month (regular)
+  when 0..30 then 2..4    # 20% work out 2-4 times per month (casual)
+  when 31..75 then 8..10  # 50% work out 8-10 times per month (regular)
   else 12..16            # 30% work out 12-16 times per month (dedicated)
   end
 end
@@ -118,7 +118,7 @@ WORKOUT_SPLITS = {
 puts "Creating workouts and exercises..."
 User.all.each do |user|
   # Determine how long ago this user started (3-15 months)
-  months_active = rand(3..15)
+  months_active = rand(1..3)
   workouts_per_month = workout_frequency_for_user
 
   (1..months_active).each do |months_ago|

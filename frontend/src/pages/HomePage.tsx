@@ -1,4 +1,3 @@
-// pages/home.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -23,10 +22,9 @@ const HomePage: React.FC = () => {
     try {
       setIsLoading(true);
       const [workoutsData, exercisesData] = await Promise.all([
-        WorkoutApi.getAll(userId),  // Pass userId here
+        WorkoutApi.getAll(userId),  // Fetch workouts for the given user
         ExerciseApi.getAll()
       ]);
-      
       setWorkouts(workoutsData);
       setExercises(exercisesData);
     } catch (error) {
@@ -39,15 +37,16 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, [userId]);  // Re-fetch if userId changes
+  }, [userId]);
 
   if (isLoading) return <div className="text-center p-8">Loading...</div>;
   if (error) return <div className="text-red-500 text-center p-8">{error}</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header userName={userName} onLogout={() => navigate('/login')} />
-      
+      {/* Header now only takes `userName` because logout is handled internally */}
+      <Header userName={userName} />
+
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-8">
           <NewWorkoutForm 
@@ -55,9 +54,8 @@ const HomePage: React.FC = () => {
             exercises={exercises}
             onWorkoutCreated={fetchData}
           />
-
           <WorkoutList 
-            workouts={workouts}  // This will now only contain workouts for userId=1
+            workouts={workouts}
             exercises={exercises}
             onWorkoutChanged={fetchData}
           />
