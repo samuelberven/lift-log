@@ -68,7 +68,7 @@ User.create!(name: "Demo User")
 
 # Create additional users
 puts "Creating other users..."
-25.times do
+19.times do
   User.create!(name: Faker::Name.unique.name)
 end
 
@@ -130,16 +130,7 @@ User.all.each do |user|
       start_date = months_ago.months.ago.beginning_of_month.to_date
       end_date = months_ago.months.ago.end_of_month.to_date
       workout_date = rand(start_date..end_date)
-      
-      # Select workout type
-      workout_type = WORKOUT_SPLITS.keys.sample
-      
-      workout = Workout.create!(
-        user: user,
-        name: workout_type,
-        date: workout_date
-      )
-      
+
       # Select workout type
       workout_type = WORKOUT_SPLITS.keys.sample
       

@@ -1,12 +1,20 @@
+// components/Header.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
 interface HeaderProps {
   userName: string;
-  onLogout: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userName, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ userName }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Add any logout logic here (clearing tokens, etc.)
+    navigate('/');
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -16,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ userName, onLogout }) => {
         </div>
         <Button 
           label="Logout" 
-          onClick={onLogout} 
+          onClick={handleLogout} 
           variant="secondary"
           size="small"
         />
@@ -27,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ userName, onLogout }) => {
 
 export default Header;
 
-// // components/Header.tsx
+
 // import React from 'react';
 // import Button from './Button';
 

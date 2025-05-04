@@ -1,42 +1,43 @@
-module Api 
-  class UserExercisesController < ApplicationController
-    def index
-      user_exercises = UserExercise.all
-      render json: user_exercises
-    end
+class Api::UsersController < ApplicationController
+  def index
+    users = User.all
+    render json: users
+  end
 
-    def show
-      user_exercise = UserExercise.find(params[:id])
-      render json: user_exercise
-    end
+  def show
+    user = User.find(params[:id])
+    render json: user
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "User not found" }, status: :not_found
+  end
 
-    def create
-      user_exercise = UserExercise.new(user_exercise_params)
-      if user_exercise.save
-        render json: user_exercise, status: :created
-      else
-        render json: { errors: user_exercise.errors.full_messages }, status: :unprocessable_entity
-      end
+  def create
+    user = User.new(user_params)
+    if user.save
+      render json: user, status: :created
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
+  end
 
-    def update
-      user_exercise = UserExercise.find(params[:id])
-      if user_exercise.update(user_exercise_params)
-        render json: user_exercise
-      else
-        render json: { errors: user_exercise.errors.full_messages }, status: :unprocessable_entity
-      end
+  def update
+    user = User.find(params[:id])
+    if user.update(user_params)
+      render json: user
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
+  end
 
-    def destroy
-      user_exercise = UserExercise.find(params[:id])
-      user_exercise.destroy
-      head :no_content
-    end
-    
-    private
-    def user_exercise_params
-      params.require(:user_exercise).permit(:user_id, :exercise_id)
-    end
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
+    head :no_content
+  end
+
+  private
+  
+  def user_params
+    params.require(:user).permit(:name)
   end
 end

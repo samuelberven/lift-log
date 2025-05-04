@@ -9,104 +9,58 @@ import { Exercise } from '../types/exercise';
 import { WorkoutApi } from '../services/workout-api';
 import { ExerciseApi } from '../services/exercise-api';
 
-interface HomePageProps {
-  userId?: number;  // Make it optional for now since we're hardcoding
-}
-
-const HomePage: React.FC<HomePageProps> = ({ userId = 1 }) => {
+const HomePage: React.FC = () => {
+  const userId = 1;  // Hardcoded for now
+  const userName = 'Demo User';
   const navigate = useNavigate();
+  
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Temporary until you implement auth
-  const userName = 'Demo User';
-
-  const fetchWorkouts = async () => {
+  const fetchData = async () => {
     try {
-      const data = await WorkoutApi.getAll(userId);
-      setWorkouts(data);
-    } catch (err) {
-      setError('Failed to load workouts');
-      console.error('Error fetching workouts:', err);
-    }
-  };
-
-  const fetchExercises = async () => {
-    try {
-      const data = await ExerciseApi.getAll();
-      setExercises(data);
-    } catch (err) {
-      setError('Failed to load exercises');
-      console.error('Error fetching exercises:', err);
+      setIsLoading(true);
+      const [workoutsData, exercisesData] = await Promise.all([
+        WorkoutApi.getAll(userId),  // Pass userId here
+        ExerciseApi.getAll()
+      ]);
+      
+      setWorkouts(workoutsData);
+      setExercises(exercisesData);
+    } catch (error) {
+      setError('Error fetching data');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      await Promise.all([fetchWorkouts(), fetchExercises()]);
-      setIsLoading(false);
-    };
+    fetchData();
+  }, [userId]);  // Re-fetch if userId changes
 
-    loadData();
-  }, [userId]);
-
-  const handleWorkoutChange = () => {
-    fetchWorkouts();  // Only refresh workouts when needed
-  };
+  if (isLoading) return <div className="text-center p-8">Loading...</div>;
+  if (error) return <div className="text-red-500 text-center p-8">{error}</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        userName={userName} 
-        onLogout={() => navigate('/login')} 
-      />
+      <Header userName={userName} onLogout={() => navigate('/login')} />
       
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
-          My Workouts
-        </h1>
-
-        {error && (
-          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
-            {error}
-          </div>
-        )}
-        
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* New Workout Section */}
-          <section className="bg-white rounded-lg shadow-md border border-gray-200">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Add New Workout
-              </h2>
-              <NewWorkoutForm 
-                userID={userId}
-                exercises={exercises}
-                onWorkoutCreated={handleWorkoutChange}
-              />
-            </div>
-          </section>
+          <NewWorkoutForm 
+            userID={userId}
+            exercises={exercises}
+            onWorkoutCreated={fetchData}
+          />
 
-          {/* Workouts List Section */}
-          <section className="bg-white rounded-lg shadow-md border border-gray-200">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Past Workouts
-              </h2>
-              {isLoading ? (
-                <div className="text-center text-gray-600">Loading...</div>
-              ) : (
-                <WorkoutList 
-                  workouts={workouts}
-                  exercises={exercises}
-                  onWorkoutChanged={handleWorkoutChange}
-                />
-              )}
-            </div>
-          </section>
+          <WorkoutList 
+            workouts={workouts}  // This will now only contain workouts for userId=1
+            exercises={exercises}
+            onWorkoutChanged={fetchData}
+          />
         </div>
       </main>
     </div>
