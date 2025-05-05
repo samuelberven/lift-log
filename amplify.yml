@@ -1,23 +1,17 @@
 version: 1
-applications:
-  - appRoot: ./frontend
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - echo Installing dependencies...
-            - npm install
-        build:
-          commands:
-            - echo Building the frontend...
-            - npm run build
-        postBuild:
-          commands:
-            - echo Build completed
-    artifacts:
-      baseDirectory: ./frontend/dist
-      files:
-        - '**/*'
-    cache:
-      paths:
-        - node_modules/**/*
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install --prefix frontend
+    build:
+      commands:
+        - npm run build --prefix frontend
+  artifacts:
+    # After the build, your compiled static files are in frontend/dist/
+    baseDirectory: frontend/dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - frontend/node_modules/**/*
