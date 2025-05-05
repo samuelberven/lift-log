@@ -4,27 +4,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - pwd               # Print the current directory
-        - ls -la            # List files to verify where we are and what's inside
-        - npm install
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: dist
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-version: 1
-frontend:
-  appRoot: frontend
-  phases:
-    preBuild:
-      commands:
-        - pwd               # Print the current directory
-        - ls -la            # List files to verify where we are and what's inside
         - npm install
     build:
       commands:
