@@ -1,17 +1,23 @@
 version: 1
-frontend:
-  appRoot: frontend  # This tells Amplify to run commands inside the frontend directory
-  phases:
-    preBuild:
-      commands:
-        - npm install  # Installs dependencies inside ./frontend
-    build:
-      commands:
-        - npm run build  # Runs the build command inside ./frontend
-  artifacts:
-    baseDirectory: frontend/dist  # Specifies the build output directory
-    files:
-      - '**/*'  # Collects all files inside the dist directory
-  cache:
-    paths:
-      - frontend/node_modules/**/*  # Caches node_modules inside the frontend directory
+applications:
+  - appRoot: ./frontend
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo Installing dependencies...
+            - npm install
+        build:
+          commands:
+            - echo Building the frontend...
+            - npm run build
+        postBuild:
+          commands:
+            - echo Build completed
+    artifacts:
+      baseDirectory: ./frontend/dist
+      files:
+        - '**/*'
+    cache:
+      paths:
+        - node_modules/**/*
