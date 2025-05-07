@@ -78,6 +78,8 @@ server/build/
 # Ignore .env files
 .env.dev
 
-# Personal development notes to myself
+# Personal development and learning notes to myself
 DEV_NOTES.md
+DEV_TODO.md
 BRANCHING_NOTES.md
+LEARNING.md
