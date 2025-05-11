@@ -12,10 +12,14 @@ WORKDIR /backend
 #     apt-get install --no-install-recommends -y \
 #     curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
 #     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# RUN apt-get update -qq && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+#     apt-utils curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    apt-utils curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-utils curl postgresql-client libpq-dev libvips build-essential git pkg-config gcc-12 || \
+    dpkg --configure -a && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 
