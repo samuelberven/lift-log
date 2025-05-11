@@ -8,10 +8,16 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /backend
 
 # Install required system dependencies
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y \
+#     curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
+#     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    apt-utils curl postgresql-client libpq-dev libvips build-essential git pkg-config && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 
 # Install bundler and Rails
 RUN gem install bundler -v 2.4.9  # Adjust version if needed
@@ -19,8 +25,12 @@ RUN gem install rails
 
 # Copy Gemfile and install dependencies
 COPY Gemfile Gemfile.lock ./
+# RUN bundle install --jobs 4 --retry 3 && \
+#     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
 RUN bundle install --jobs 4 --retry 3 && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
+    rm -rf ~/.bundle/ /usr/local/bundle/ruby/*/cache
+
+
 
 # Copy application code
 COPY . .
@@ -37,6 +47,15 @@ EXPOSE 3000 8080
 
 CMD ["rails", "server", "-b", "0.0.0.0"]
 # CMD ["rails", "server", "-b", "0.0.0.0", "-p", "${PORT}"]
+
+
+
+
+
+
+
+
+
 
 
 
