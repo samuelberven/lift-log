@@ -2,31 +2,46 @@ services:
   db:
     image: postgres:17
     container_name: postgres_container
+    env_file:
+      - ./backend/.env.development  # Load local DB credentials in development
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
     ports:
       - "5432:5432"
     volumes:
       - ./database/data:/var/lib/postgresql/data
+    # networks and profiles here were added for local + Lightsail dev
+    networks:
+      - default
+    # profiles:
+    #   - development  # Only start DB in development mode
 
   backend:
     build: ./backend
     container_name: rails_container
     env_file:
-      - ./backend/.env.development  # Backend specific env file
+      - ./backend/.env.${RAILS_ENV}  # Dynamically load the correct env file
+      # - ./backend/.env.development  # Backend specific env file
     depends_on:
       - db
     environment:
+      # RAILS_ENV: development  # Explicitly set Rails environment
+      RAILS_ENV: ${RAILS_ENV}  # Explicitly set Rails environment
+      # DATABASE_URL: postgres://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASSWORD}@${LOCAL_DB_HOST}:5432/${LOCAL_DB_NAME}
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
       DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USERNAME}
+      DB_USERNAME: ${DB_USERNAME}
+      # DB_USER: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3000:3000"
     volumes:
       - ./backend:/backend  # volumes:
+    # networks is new for Lightsail deployment
+    networks:
+      - default
 
   frontend:
     build:
@@ -42,4 +57,9 @@ services:
     environment:
       VITE_API_URL: ${VITE_API_URL}
     command: npm run dev
+    # networks is new for Lightsail
+    networks:
+      - default
 
+networks:
+  default:
