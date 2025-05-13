@@ -1,4 +1,3 @@
-// services/workout-exercise-api.ts
 import { 
   WorkoutExercise, 
   CreateWorkoutExerciseDto, 
@@ -18,7 +17,7 @@ export const WorkoutExerciseApi = {
     const response = await fetch(`${BASE_URL}/workout_exercises`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ workout_exercise: data })  // matches your wrapPayload pattern
+      body: JSON.stringify({ workout_exercise: data })
     });
     if (!response.ok) throw new Error('Failed to create workout exercise');
     return response.json();

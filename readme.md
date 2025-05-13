@@ -8,11 +8,11 @@ A **modern workout tracking application** designed for **scalability, performanc
 ---
 
 ## 🚧 Project in Transition  
-This project is currently undergoing a **major architectural upgrade** to improve scalability, maintainability, and cloud-first deployment. Depending on when you view it, some features may be incomplete or in progress.  
+This project is currently undergoing a **major architectural upgrade** to improve scalability, maintainability, and cloud-first deployment. Depending on when you view it, some features may be incomplete or in progress.
 
-The transition includes migrating from a **MERN stack** to a **Dockerized Rails + Postgres backend**, a **TypeScript-based React frontend**, and **cloud deployment on AWS & Google Cloud Run**.  
+The transition includes migrating from a **MERN stack** to a **Dockerized Rails + Postgres backend**, a **TypeScript-based React frontend**, and **cloud deployment on AWS & Google Cloud Run**.
 
-If you're interested in the evolution of the project, check out the [Roadmap](ROADMAP.md) for details on completed, ongoing, and future improvements. 🚀  
+If you're interested in the evolution of the project, check out the [Roadmap](ROADMAP.md) for details on completed, ongoing, and future improvements. 🚀
 
 ---
 
@@ -72,6 +72,7 @@ git clone https://github.com/samuelberven/lift-logger.git
 cd lift-logger
 ```
 ### Run the application (Dockerized development)
+- Add "RAILS_ENV=development" to command if experiencing RAILS_ENV environment variable issue when developing locally
 ```bash
 docker-compose up --build
 ```

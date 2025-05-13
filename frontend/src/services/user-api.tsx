@@ -1,4 +1,3 @@
-// services/user-api.ts
 import { User, CreateUserDto, UpdateUserDto } from '../types/user';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';

@@ -1,4 +1,3 @@
-// services/workout-api.ts
 import { Workout, CreateWorkoutDto, UpdateWorkoutDto } from '../types/workout';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';

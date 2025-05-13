@@ -28,7 +28,8 @@ services:
       - db
     environment:
       # RAILS_ENV: development  # Explicitly set Rails environment
-      RAILS_ENV: ${RAILS_ENV}  # Explicitly set Rails environment
+      RAILS_ENV: "${RAILS_ENV:-development}"
+      # RAILS_ENV: ${RAILS_ENV}  # Explicitly set Rails environment
       # DATABASE_URL: postgres://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASSWORD}@${LOCAL_DB_HOST}:5432/${LOCAL_DB_NAME}
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
       DB_HOST: ${DB_HOST}
