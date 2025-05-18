@@ -66,11 +66,23 @@ EXERCISE_DESCRIPTIONS = {
 puts "Creating Demo User..."
 User.create!(name: "Demo User")
 
+# # Create additional users
+# puts "Creating other users..."
+# 4.times do
+#   User.create!(name: Faker::Name.unique.name)
+# end
 # Create additional users
 puts "Creating other users..."
 4.times do
-  User.create!(name: Faker::Name.unique.name)
+  User.create!(
+    name: Faker::Name.unique.name, 
+    email: Faker::Internet.unique.email,
+    password: Faker::Internet.password(min_length: 10)  # Devise will encrypt this
+    )
 end
+
+
+
 
 # Create exercises with descriptions
 puts "Creating exercises..."
