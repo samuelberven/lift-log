@@ -3,7 +3,7 @@ services:
     image: postgres:17
     container_name: postgres_container
     env_file:
-      - ./backend/.env.development  # Load local DB credentials in development
+      - ./backend/.env.development  # Local DB credentials for development
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
@@ -12,35 +12,31 @@ services:
       - "5432:5432"
     volumes:
       - ./database/data:/var/lib/postgresql/data
-    # networks and profiles here were added for local + Lightsail dev
     networks:
       - default
+    # Uncomment the profiles block below if you only want to run the DB in development
     # profiles:
-    #   - development  # Only start DB in development mode
+    #   - development
 
   backend:
     build: ./backend
     container_name: rails_container
     env_file:
-      - ./backend/.env.${RAILS_ENV}  # Dynamically load the correct env file
-      # - ./backend/.env.development  # Backend specific env file
+      - ./backend/.env.${RAILS_ENV:-development}  # Dynamically load the correct env file; defaults to development if RAILS_ENV isn’t set
     depends_on:
       - db
     environment:
-      # RAILS_ENV: development  # Explicitly set Rails environment
       RAILS_ENV: "${RAILS_ENV:-development}"
-      # RAILS_ENV: ${RAILS_ENV}  # Explicitly set Rails environment
-      # DATABASE_URL: postgres://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASSWORD}@${LOCAL_DB_HOST}:5432/${LOCAL_DB_NAME}
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
-      DB_HOST: ${DB_HOST}
-      DB_USERNAME: ${DB_USERNAME}
-      # DB_USER: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
+      # The above assumes that in your .env file you set DB_HOST appropriately:
+      # For local development, DB_HOST should be set to "db" (or "postgres_container")
+      # For production on Cloud Run, DB_HOST would point to your AWS RDS instance.
     ports:
       - "3000:3000"
     volumes:
-      - ./backend:/backend  # volumes:
-    # networks is new for Lightsail deployment
+      - ./backend:/backend
+    # Follow command removes any stale PID files before starting Rails
+    command: bash -c "rm -f /backend/tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
     networks:
       - default
 
@@ -49,7 +45,7 @@ services:
       context: ./frontend
     container_name: vite_frontend
     ports:
-      - "5173:5173"  # Vite's default port
+      - "5173:5173"
     depends_on:
       - backend
     volumes:
@@ -58,9 +54,76 @@ services:
     environment:
       VITE_API_URL: ${VITE_API_URL}
     command: npm run dev
-    # networks is new for Lightsail
     networks:
       - default
 
 networks:
   default:
+
+# services:
+#   db:
+#     image: postgres:17
+#     container_name: postgres_container
+#     env_file:
+#       - ./backend/.env.development  # Load local DB credentials in development
+#     environment:
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#       POSTGRES_DB: ${DB_NAME}
+#       POSTGRES_USER: ${DB_USERNAME}
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - ./database/data:/var/lib/postgresql/data
+#     # networks and profiles here were added for local + Lightsail dev
+#     networks:
+#       - default
+#     # profiles:
+#     #   - development  # Only start DB in development mode
+
+#   backend:
+#     build: ./backend
+#     container_name: rails_container
+#     env_file:
+#       - ./backend/.env.development  # Dynamically load the correct env file
+#       # - ./backend/.env.${RAILS_ENV}  # Dynamically load the correct env file
+#       # - ./backend/.env.development  # Backend specific env file
+#     depends_on:
+#       - db
+#     environment:
+#       # RAILS_ENV: development  # Explicitly set Rails environment
+#       RAILS_ENV: "${RAILS_ENV:-development}"
+#       # RAILS_ENV: ${RAILS_ENV}  # Explicitly set Rails environment
+#       # DATABASE_URL: postgres://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASSWORD}@${LOCAL_DB_HOST}:5432/${LOCAL_DB_NAME}
+#       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
+#       DB_HOST: ${DB_HOST}
+#       DB_USERNAME: ${DB_USERNAME}
+#       # DB_USER: ${DB_USERNAME}
+#       DB_PASSWORD: ${DB_PASSWORD}
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./backend:/backend  # volumes:
+#     # networks is new for Lightsail deployment
+#     networks:
+#       - default
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#     container_name: vite_frontend
+#     ports:
+#       - "5173:5173"  # Vite's default port
+#     depends_on:
+#       - backend
+#     volumes:
+#       - ./frontend:/app:rw
+#       - /app/node_modules  # Prevent overwriting node_modules
+#     environment:
+#       VITE_API_URL: ${VITE_API_URL}
+#     command: npm run dev
+#     # networks is new for Lightsail
+#     networks:
+#       - default
+
+# networks:
+#   default:

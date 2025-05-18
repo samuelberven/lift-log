@@ -74,7 +74,7 @@ cd lift-logger
 ### Run the application (Dockerized development)
 - Add "RAILS_ENV=development" to command if experiencing RAILS_ENV environment variable issue when developing locally
 ```bash
-docker-compose up --build
+[RAILS_ENV=development] docker-compose up --build
 ```
 
 ## 📂 Project Structure
